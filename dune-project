@@ -12,6 +12,6 @@
  (description "A")
  (depends
    (ocaml (>= 4.10.0))
-   (rocq-prover (>= "9.0~")))
-   (allow_empty)
+   (rocq-prover (>= "9.0~"))
+   (rocq-bignums (>= "9.0")))
    )
