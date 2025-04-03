@@ -1,0 +1,4 @@
+(coq.theory
+ (name Test)
+ (package rocq-test)
+ (theories Stdlib))

@@ -1,0 +1,3 @@
+#!/bin/sh
+# hash = cffaedfe0c0000010000000002000000
+exec rocq doc "$@"
