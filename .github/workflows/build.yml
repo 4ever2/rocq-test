@@ -19,15 +19,15 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout branch ${{ github.event.pull_request.head.ref || github.ref_name }}
-        id: checkout
-        uses: actions/checkout@v6
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Determine which commit to initially checkout
         run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
           github.sha }}\" >> $GITHUB_ENV\nelse\n  echo \"target_commit=${{ github.event.pull_request.head.sha
           }}\" >> $GITHUB_ENV\nfi\n"
+      - name: Git checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ env.target_commit }}
       - name: Determine which commit to test
         run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"tested_commit=${{
           github.sha }}\" >> $GITHUB_ENV\nelse\n  merge_commit=$(git ls-remote ${{ github.event.repository.html_url
@@ -37,6 +37,11 @@ jobs:
           \ -o \"x$mergeable\" != \"x0\" ]; then\n    echo \"tested_commit=${{ github.event.pull_request.head.sha
           }}\" >> $GITHUB_ENV\n  else\n    echo \"tested_commit=$merge_commit\" >> $GITHUB_ENV\n\
           \  fi\nfi\n"
+      - name: Checkout branch ${{ github.event.pull_request.head.ref || github.ref_name }}
+        id: checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Print
         run: |
           echo "Target: ${{ env.target_commit }}"
