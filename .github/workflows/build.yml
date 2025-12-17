@@ -22,6 +22,8 @@ jobs:
       - name: Checkout branch ${{ github.ref_name }}
         id: checkout
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Determine which commit to initially checkout
         run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
           github.sha }}\" >> $GITHUB_ENV\nelse\n  echo \"target_commit=${{ github.event.pull_request.head.sha
