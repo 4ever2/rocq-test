@@ -19,7 +19,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout branch ${{ github.ref_name }}
+      - name: Checkout branch ${{ github.event.pull_request.head.ref || github.ref_name }}
         id: checkout
         uses: actions/checkout@v6
         with:
